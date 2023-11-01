@@ -1,23 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
 function App() {
+  const [authors, setAuthors] = useState([])
+  useEffect(() => {
+    // Lakukan permintaan GET menggunakan Axios
+    axios.get('http://localhost:8000/api/books')
+      .then((response) => {
+        // Tangani respon di sini
+        setAuthors(response.data.data);
+      })
+      .catch((error) => {
+        console.error('Terjadi kesalahan:', error);
+      });
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+      <header>
+        <h1>author</h1>
       </header>
+      <ul>
+        {Array.isArray(authors) && authors.map((author) => (
+          <li key={author.id}>{author.name_book}</li>
+        ))}
+      </ul>
+
     </div>
   );
 }
