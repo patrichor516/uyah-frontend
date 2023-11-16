@@ -32,7 +32,7 @@ function Dashboard() {
               <div className="col-sm-6">
                 <ol className="breadcrumb float-sm-right">
                   <li className="breadcrumb-item"><Link href="#">Home</Link></li>
-                  <li className="breadcrumb-item active">DataTables</li>
+                  <li className="breadcrumb-item active">Dashboard</li>
                 </ol>
               </div>
             </div>
@@ -44,41 +44,10 @@ function Dashboard() {
               <div className="col-12">
                 <div className="card">
                   <div className="card-header">
-                    <h3 className="card-title">DataTable with default features</h3>
+                    <h3 className="card-title">This Is Dashboard</h3>
                   </div>
                   <div className="card-body">
-                    {Books.length > 0 ? (
-                      <table id="example1" className="table table-bordered table-striped">
-                        <thead>
-                          <tr>
-                            <th>ID</th>
-                            <th>ISBN</th>
-                            <th>Name Book</th>
-                            <th>Status</th>
-                            <th>Category</th>
-                            <th>Author</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {Books.map((book) => (
-                            <tr key={book.id}>
-                              <td>{book.id}</td>
-                              <td>{book.isbn}</td>
-                              <td>{book.name_book}</td>
-                              <td>{book.status}</td>
-                              <td>{book.category.name_category}</td>
-                              <td>
-                                {book.author.map((author) => (
-                                  <div key={author.id}>{author.name_author}</div>
-                                ))}
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    ) : (
-                      <p>Loading data...</p>
-                    )}
+                    
                   </div>
                 </div>
               </div>
