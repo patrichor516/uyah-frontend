@@ -57,7 +57,15 @@ function Sidebar() {
               
               </ul>
             </li>
-           
+            <li class="nav-header">ACTION</li>
+            <li className="nav-item">
+              <Link to="/" className="nav-link">
+                <i className="nav-icon fa-sign-out"></i>
+                <p>
+                  Logout
+                </p>
+              </Link>
+            </li>
 
           </ul>
         </nav>

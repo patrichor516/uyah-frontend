@@ -9,7 +9,7 @@ import Footer from '../../element/Footer';
 function ListBook() {
   const [Books, setBooks] = useState([]);
   useEffect(() => {
-    axios.get('http://localhost:8000/api/books')
+    axios.get('http://localhost:8000/api/books/all')
       .then((response) => {
         const bookData = response.data.data; // Menyimpan data buku ke dalam variabel bookData
         setBooks(bookData);
@@ -91,7 +91,7 @@ function ListBook() {
                                   <span class="sr-only">Toggle Dropdown</span>
                                 </button>
                                 <div class="dropdown-menu" role="menu">
-                                  <a class="dropdown-item" href="#">Edit</a>
+                                  <Link class="dropdown-item" to="/book/EditBook">Edit</Link>
                                   <a class="dropdown-item" href="#">Delete</a>
                                 </div>
                               </div></td>
