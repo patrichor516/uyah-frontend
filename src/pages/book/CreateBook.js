@@ -3,6 +3,9 @@ import Header from '../../element/Headers';
 import Sidebar from '../../element/Sidebar';
 import Footer from '../../element/Footer';
 import React, { useState, useEffect } from 'react';
+import Swal from 'sweetalert2';
+import { Link, useNavigate } from 'react-router-dom';
+import Select from 'react-select';
 
 function CreateBook() {
   const [Books, setBooks] = useState({
@@ -14,12 +17,11 @@ function CreateBook() {
     name_category: ""
   })
 
-  const [Authors, setAuthors] = useState({
-    name_author: ""
-  })
-  
+  const [Authors, setAuthors] = useState([]);
+
   const [allAuthors, setAllAuthors] = useState([]);
   const [allCategories, setAllCategories] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchDataCategories();
@@ -56,6 +58,11 @@ function CreateBook() {
     }
   }
 
+  const handleAuthorSelectChange = (selectedOptions) => {
+    const selectedAuthorIds = selectedOptions.map(option => option.value);
+    setAuthors(selectedAuthorIds);
+  };
+
   const onSubmitChange = async (e) => {
     e.preventDefault();
     try {
@@ -64,14 +71,23 @@ function CreateBook() {
       const saveResponse = await axios.post('http://localhost:8000/api/books/create', {
         name_book: Books.name_book,
         category_id: Categories.name_category,
-        author_id: Authors.name_author // Sesuaikan dengan kunci yang benar
+        author_id: Authors,
       });
-    
+
       const savedData = saveResponse.data.data;
       setBooks(savedData);
-      console.log('Data berhasil disimpan:', savedData);
+      navigate('/book/ListBook')
+      Swal.fire({
+        title: 'success',
+        icon: 'success'
+      })
     } catch (error) {
       console.error('Terjadi kesalahan saat menyimpan data:', error);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Something went wrong!",
+      })
     }
   };
 
@@ -84,7 +100,7 @@ function CreateBook() {
           <div className="container-fluid">
             <div className="card card-default">
               <div className="card-header">
-                <h3 className="card-title">Select2 (Default Theme)</h3>
+                <h3 className="card-title">Create Book</h3>
                 <div className="card-tools">
                   <button type="button" className="btn btn-tool" data-card-widget="collapse">
                     <i className="fas fa-minus"></i>
@@ -125,23 +141,16 @@ function CreateBook() {
                       </select>
                     </div>
                     <div className="form-group">
-                      <label htmlFor="authorSelect">Select Author</label>
-                      <select
-                        id="authorSelect"
-                        className="form-control"
-                        name="name_author"
-                        value={Authors.name_author}
-                        onChange={(e) => setAuthors({ ...Authors, [e.target.name]: [e.target.value] })}
-                      >
-                        <option value="">Select Author</option>
-                        {allAuthors.map((author) => (
-                          <option key={author.id} value={author.id}>
-                            {author.name_author}
-                          </option>
-                        ))}
-                      </select>
+                      <label>Select Authors</label>
+                      <Select
+                        isMulti
+                        options={allAuthors.map(author => ({ value: author.id, label: author.name_author }))}
+                        value={allAuthors.filter(author => Authors.includes(author.id)).map(author => ({ value: author.id, label: author.name_author }))}
+                        onChange={handleAuthorSelectChange}
+                      />
                     </div>
                     {/* Repeat similar form groups for other fields */}
+
                     <div className="form-group">
                       <button
                         type="button"
@@ -151,6 +160,7 @@ function CreateBook() {
                         Submit
                       </button>
                     </div>
+
                   </div>
                 </div>
               </div>

@@ -6,47 +6,23 @@ import Header from '../../element/Headers';
 import Sidebar from '../../element/Sidebar';
 import Footer from '../../element/Footer';
 import Swal from 'sweetalert2';
-
-function ListBook() {
-  const { bookId } = useParams();
-  const [Books, setBooks] = useState([]);
-
+function ListCategory() {
+  const { categoryId } = useParams();
+  const [Category, setCategory] = useState([]);
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8000/api/category`);
+        const categoryData = response.data.data;
+        setCategory(categoryData);
+      } catch (error) {
+        console.error('Error fetching book data:', error);
+      }
+    };
+
     fetchData();
-  }, [bookId]);
+  }, [categoryId]);
 
-  const fetchData = async () => {
-    try {
-      const response = await axios.get(`http://localhost:8000/api/books/all`);
-      const bookData = response.data.data;
-      setBooks(bookData);
-    } catch (error) {
-      console.error('Error fetching book data:', error);
-    }
-  };
-
-  const deleteBook = async (id) => {
-    try {
-      
-      Swal.close();
-  
-      const response = await axios.delete(`http://localhost:8000/api/books/delete/${id}`);
-      const deletedBookId = response.data.data.id;
-      setBooks((prevBooks) => prevBooks.filter((book) => book.id !== deletedBookId));
-
-      Swal.fire({
-        title: 'Data Berhasil Dihapus',
-        icon: 'success',
-      });
-    } catch (error) {
-      console.error('Error deleting book:', error);
-      Swal.fire({
-        icon: 'success',
-        title: 'Oops...',
-        text: 'Something went wrong!',
-      });
-    }
-  };
 
   return (
 
@@ -80,7 +56,7 @@ function ListBook() {
                     <div class="card-tools">
                       <div class="input-group input-group-sm" style={{ width: '100px' }}>
                         <td>
-                          <Link to="/book/CreateBook" className="btn btn-block btn-primary">
+                          <Link to="/Category/CreateCategory" className="btn btn-block btn-primary">
                             CREATE
                           </Link>
                         </td>
@@ -88,47 +64,27 @@ function ListBook() {
                     </div>
                   </div>
                   <div className="card-body">
-                    {Books.length > 0 ? (
+                    {Category.length > 0 ? (
                       <table id="example1" className="table table-bordered table-striped">
                         <thead>
                           <tr>
-                            <th>ID</th>
-                            <th>ISBN</th>
-                            <th>Name Book</th>
-                            <th>Status</th>
-                            <th>Category</th>
-                            <th>Author</th>
+                            <th>No</th>
+                            <th>Name Category</th>
                             <th>Action</th>
                           </tr>
                         </thead>
                         <tbody>
-                          {Books.map((book) => (
-                            <tr key={book.id}>
-                              <td>{book.id}</td>
-                              <td>{book.isbn}</td>
-                              <td>{book.name_book}</td>
-                              <td>{book.status}</td>
-                              <td>{book.category.name_category}</td>
-                              <td>
-                                {book.author.map((author) => (
-                                  <div key={author.id}>{author.name_author}</div>
-                                ))}
-                              </td>
+                          {Category.map((category) => (
+                            <tr key={category.id}>
+                              <td>{category.id}</td>
+                              <td>{category.name_category}</td>
                               <td><div class="btn-group">
                                 <button type="button" class="btn btn-info">Action</button>
                                 <button type="button" class="btn btn-info dropdown-toggle dropdown-icon" data-toggle="dropdown">
                                   <span class="sr-only">Toggle Dropdown</span>
                                 </button>
                                 <div class="dropdown-menu" role="menu">
-                                  <Link className="dropdown-item" to={`/book/EditBook/${book.id}`}>
-                                    Edit
-                                  </Link>
-                                  <button
-                                    className="dropdown-item"
-                                    onClick={() => deleteBook(book.id)}
-                                  >
-                                    Delete
-                                  </button>
+                                  <Link className="dropdown-item" to={`/category/EditCategory/${category.id}`}>Edit</Link>
                                 </div>
                               </div></td>
                             </tr>
@@ -149,4 +105,4 @@ function ListBook() {
     </div>
   );
 }
-export default ListBook;
+export default ListCategory;

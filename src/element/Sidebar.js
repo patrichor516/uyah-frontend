@@ -54,6 +54,22 @@ function Sidebar() {
                     </p>
                   </Link>
                 </li>
+                <li className="nav-item">
+                  <Link to="/Author/ListAuthor" className="nav-link">
+                    <i className="far fa-circle nav-icon"></i>
+                    <p>
+                      Author
+                    </p>
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link to="/Category/ListCategory" className="nav-link">
+                    <i className="far fa-circle nav-icon"></i>
+                    <p>
+                      Category
+                    </p>
+                  </Link>
+                </li>
               
               </ul>
             </li>
