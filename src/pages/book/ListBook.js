@@ -17,7 +17,7 @@ function ListBook() {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get(`http://localhost:8000/api/books/all`);
+      const response = await axios.get(`http://localhost:8000/api/books`);
       const bookData = response.data.data;
       setBooks(bookData);
     } catch (error) {
@@ -93,11 +93,11 @@ function ListBook() {
                         <thead>
                           <tr>
                             <th>ID</th>
-                            <th>ISBN</th>
-                            <th>Name Book</th>
-                            <th>Status</th>
-                            <th>Category</th>
-                            <th>Author</th>
+                            <th>Judul Buku</th>
+                            <th>Pengarang</th>
+                            <th>Penerbit</th>
+                            <th>Buku Baik</th>
+                            <th>Buku Rusak</th>
                             <th>Action</th>
                           </tr>
                         </thead>
@@ -105,15 +105,12 @@ function ListBook() {
                           {Books.map((book) => (
                             <tr key={book.id}>
                               <td>{book.id}</td>
-                              <td>{book.isbn}</td>
-                              <td>{book.name_book}</td>
-                              <td>{book.status}</td>
-                              <td>{book.category.name_category}</td>
-                              <td>
-                                {book.author.map((author) => (
-                                  <div key={author.id}>{author.name_author}</div>
-                                ))}
-                              </td>
+                              <td>{book.judul_buku}</td>
+                              <td>{book.pengarang}</td>
+                              <td>{book.author.nama_penerbit}</td>
+                              <td>{book.buku_baik}</td>
+                              <td>{book.buku_rusak}</td>
+    
                               <td><div class="btn-group">
                                 <button type="button" class="btn btn-info">Action</button>
                                 <button type="button" class="btn btn-info dropdown-toggle dropdown-icon" data-toggle="dropdown">

@@ -6,23 +6,50 @@ import Header from '../../element/Headers';
 import Sidebar from '../../element/Sidebar';
 import Footer from '../../element/Footer';
 import Swal from 'sweetalert2';
-function ListAuthor() {
-  const { authorId } = useParams();
-  const [Author, setAuthor] = useState([]);
+function ListUser() {
+  const { userId } = useParams();
+  const [User, setUser] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://localhost:8000/api/author`);
-        const authorData = response.data.data;
-        setAuthor(authorData);
+        const response = await axios.get(`http://localhost:8000/api/anggota`);
+        const userData = response.data.data;
+        setUser(userData);
       } catch (error) {
         console.error('Error fetching book data:', error);
       }
     };
 
     fetchData();
-  }, [authorId]);
+  }, [userId]);
 
+  const handleDelete = async (id) => {
+    try {
+      const response = await axios.delete(`http://localhost:8000/api/anggota/delete/${id}`);
+      if (response.data.status) {
+        // Remove the deleted user from the state
+        setUser(User.filter((user) => user.id !== id));
+        Swal.fire({
+          title: 'Success',
+          text: 'User deleted successfully',
+          icon: 'success',
+        });
+      } else {
+        Swal.fire({
+          title: 'Error',
+          text: 'Failed to delete user',
+          icon: 'error',
+        });
+      }
+    } catch (error) {
+      console.error('Error deleting user:', error);
+      Swal.fire({
+        title: 'Error',
+        text: 'Failed to delete user',
+        icon: 'error',
+      });
+    }
+  };
 
   return (
 
@@ -56,7 +83,7 @@ function ListAuthor() {
                     <div class="card-tools">
                       <div class="input-group input-group-sm" style={{ width: '100px' }}>
                         <td>
-                          <Link to="/Author/CreateAuthor" className="btn btn-block btn-primary">
+                          <Link to="/Category/CreateCategory" className="btn btn-block btn-primary">
                             CREATE
                           </Link>
                         </td>
@@ -64,31 +91,41 @@ function ListAuthor() {
                     </div>
                   </div>
                   <div className="card-body">
-                    {Author.length > 0 ? (
+                    {User.length > 0 ? (
                       <table id="example1" className="table table-bordered table-striped">
                         <thead>
                           <tr>
-                            <th>ID</th>
-                            <th>Kode Penerbit</th>
-                            <th>Nama Penerbit</th>
-                            <th>Verf Penerbit</th>
+                            <th>No</th>
+                            <th>Kode Anggota</th>
+                            <th>NIS</th>
+                            <th>Nama Lengkap</th>
+                            <th>Kelas</th>
+                            <th>Alamat</th>
                             <th>Aksi</th>
                           </tr>
                         </thead>
                         <tbody>
-                          {Author.map((author) => (
-                            <tr key={author.id}>
-                              <td>{author.id}</td>
-                              <td>{author.kode_penerbit}</td>
-                              <td>{author.nama_penerbit}</td>
-                              <td>{author.verf_penerbit}</td>
+                          {User.map((User) => (
+                            <tr key={User.id}>
+                              <td>{User.id}</td>
+                              <td>{User.kode_user}</td>
+                              <td>{User.nis}</td>
+                              <td>{User.fullname}</td>
+                              <td>{User.kelas}</td>
+                              <td>{User.alamat}</td>
                               <td><div class="btn-group">
                                 <button type="button" class="btn btn-info">Action</button>
                                 <button type="button" class="btn btn-info dropdown-toggle dropdown-icon" data-toggle="dropdown">
                                   <span class="sr-only">Toggle Dropdown</span>
                                 </button>
                                 <div class="dropdown-menu" role="menu">
-                                  <Link className="dropdown-item" to={`/Author/EditAuthor/${author.id}`}>Edit</Link>
+                                  <Link className="dropdown-item" to={`/anggota/EditAnggota/${User.id}`}>Edit</Link>
+                                  <button
+                                    className="dropdown-item"
+                                    onClick={() => handleDelete(User.id)}
+                                  >
+                                    Delete
+                                  </button>
                                 </div>
                               </div></td>
                             </tr>
@@ -109,4 +146,4 @@ function ListAuthor() {
     </div>
   );
 }
-export default ListAuthor;
+export default ListUser;

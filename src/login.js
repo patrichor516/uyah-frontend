@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'; // Import useNavigate hook
 import axios from "axios";
 
 function Login() {
-    const [email, setEmail] = useState("");
+    const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const navigate = useNavigate();
@@ -15,7 +15,7 @@ function Login() {
 
         try {
             const response = await axios.post("http://localhost:8000/api/login", {
-                email: email,
+                username: username,
                 password: password
             });
 
@@ -36,19 +36,19 @@ function Login() {
             <div className="login-box">
                 <div className="card card-outline card-primary">
                     <div className="card-header text-center">
-                        <h1><b>Admin</b>LTE</h1>
+                        <h1>PERPUS</h1>
                     </div>
                     <div className="card-body">
-                        <p className="login-box-msg">Sign in to start your session</p>
+                        
 
                         <form onSubmit={handleLogin}>
                             <div className="input-group mb-3">
                                 <input
-                                    type="email"
+                                    type="username"
                                     className="form-control"
-                                    placeholder="Email"
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
+                                    placeholder="username"
+                                    value={username}
+                                    onChange={(e) => setUsername(e.target.value)}
                                 />
                                 <div className="input-group-append">
                                     <div className="input-group-text">

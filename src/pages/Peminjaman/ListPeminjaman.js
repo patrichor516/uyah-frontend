@@ -6,22 +6,24 @@ import Header from '../../element/Headers';
 import Sidebar from '../../element/Sidebar';
 import Footer from '../../element/Footer';
 import Swal from 'sweetalert2';
-function ListAuthor() {
-  const { authorId } = useParams();
-  const [Author, setAuthor] = useState([]);
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(`http://localhost:8000/api/author`);
-        const authorData = response.data.data;
-        setAuthor(authorData);
-      } catch (error) {
-        console.error('Error fetching book data:', error);
-      }
-    };
 
+function ListPeminjaman() {
+  const [peminjaman, setPeminjaman] = useState([]);
+
+  useEffect(() => {
     fetchData();
-  }, [authorId]);
+  },);
+
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(`http://localhost:8000/api/peminjaman`);
+      const Data = response.data.data;
+      setPeminjaman(Data);
+    } catch (error) {
+      console.error('Error fetching book data:', error);
+    }
+  };
+
 
 
   return (
@@ -40,7 +42,7 @@ function ListAuthor() {
               <div className="col-sm-6">
                 <ol className="breadcrumb float-sm-right">
                   <li className="breadcrumb-item"><Link href="#">Home</Link></li>
-                  <li className="breadcrumb-item active">DataTables</li>
+                  <li className="breadcrumb-item active">Peminjaman</li>
                 </ol>
               </div>
             </div>
@@ -52,11 +54,11 @@ function ListAuthor() {
               <div className="col-12">
                 <div className="card">
                   <div className="card-header">
-                    <h3 className="card-title">DataTable with default features</h3>
+                    <h3 className="card-title">List Peminjaman</h3>
                     <div class="card-tools">
                       <div class="input-group input-group-sm" style={{ width: '100px' }}>
                         <td>
-                          <Link to="/Author/CreateAuthor" className="btn btn-block btn-primary">
+                          <Link to="/peminjaman/CreatePeminjaman" className="btn btn-block btn-primary">
                             CREATE
                           </Link>
                         </td>
@@ -64,33 +66,31 @@ function ListAuthor() {
                     </div>
                   </div>
                   <div className="card-body">
-                    {Author.length > 0 ? (
+                    {peminjaman.length > 0 ? (
                       <table id="example1" className="table table-bordered table-striped">
                         <thead>
                           <tr>
                             <th>ID</th>
-                            <th>Kode Penerbit</th>
-                            <th>Nama Penerbit</th>
-                            <th>Verf Penerbit</th>
-                            <th>Aksi</th>
+                            <th>Nama Anggota</th>
+                            <th>Judul Buku</th>
+                            <th>tanggal_peminjaman</th>
+                            <th>tanggal_pengembalian</th>
+                            <th>Kondisi buku saat dipinjam</th>
+                            <th>kondisi buku_saat dikembalikan</th>
+                            <th>Denda</th>
                           </tr>
                         </thead>
                         <tbody>
-                          {Author.map((author) => (
-                            <tr key={author.id}>
-                              <td>{author.id}</td>
-                              <td>{author.kode_penerbit}</td>
-                              <td>{author.nama_penerbit}</td>
-                              <td>{author.verf_penerbit}</td>
-                              <td><div class="btn-group">
-                                <button type="button" class="btn btn-info">Action</button>
-                                <button type="button" class="btn btn-info dropdown-toggle dropdown-icon" data-toggle="dropdown">
-                                  <span class="sr-only">Toggle Dropdown</span>
-                                </button>
-                                <div class="dropdown-menu" role="menu">
-                                  <Link className="dropdown-item" to={`/Author/EditAuthor/${author.id}`}>Edit</Link>
-                                </div>
-                              </div></td>
+                          {peminjaman.map((peminjaman) => (
+                            <tr key={peminjaman.id}>
+                              <td>{peminjaman.id}</td>
+                              <td>{peminjaman.nama_anggota}</td>
+                              <td>{peminjaman.books ? peminjaman.books.judul_buku : 'tidak ada'}</td>
+                              <td>{peminjaman.tanggal_peminjaman}</td>
+                              <td>{peminjaman.tanggal_pengembalian}</td>
+                              <td>{peminjaman.kondisi_buku_saat_dipinjam}</td>
+                              <td>{peminjaman.kondisi_buku_saat_dikembalikan}</td>
+                              <td>{peminjaman.denda}</td>
                             </tr>
                           ))}
                         </tbody>
@@ -109,4 +109,4 @@ function ListAuthor() {
     </div>
   );
 }
-export default ListAuthor;
+export default ListPeminjaman;

@@ -9,15 +9,23 @@ import Select from 'react-select';
 
 function CreateBook() {
   const [Books, setBooks] = useState({
-    name_book: "",
-    category_id: "",
+    category_id : "",
+    penerbit_buku_id : "",
+    judul_buku : "",
+    pengarang : "",
+    tahun_terbit : "",
+    isbn : "",
+    buku_baik : "",
+    buku_rusak : ""
   });
 
   const [Categories, setCategories] = useState({
     name_category: ""
   })
 
-  const [Authors, setAuthors] = useState([]);
+  const [Authors, setAuthors] = useState({
+    nama_penerbit :""
+  });
 
   const [allAuthors, setAllAuthors] = useState([]);
   const [allCategories, setAllCategories] = useState([]);
@@ -58,10 +66,6 @@ function CreateBook() {
     }
   }
 
-  const handleAuthorSelectChange = (selectedOptions) => {
-    const selectedAuthorIds = selectedOptions.map(option => option.value);
-    setAuthors(selectedAuthorIds);
-  };
 
   const onSubmitChange = async (e) => {
     e.preventDefault();
@@ -69,9 +73,15 @@ function CreateBook() {
       await fetchData();
       await fetchDataCategories();
       const saveResponse = await axios.post('http://localhost:8000/api/books/create', {
-        name_book: Books.name_book,
-        category_id: Categories.name_category,
-        author_id: Authors,
+        category_id: Books.category_id,
+        penerbit_buku_id: Authors.nama_penerbit,
+        judul_buku: Books.judul_buku,
+        pengarang: Books.pengarang,
+        tahun_terbit: Books.tahun_terbit,
+        isbn: Books.isbn,
+        buku_baik:Books.buku_baik,
+        buku_rusak : Books.buku_rusak
+
       });
 
       const savedData = saveResponse.data.data;
@@ -117,39 +127,80 @@ function CreateBook() {
                       <input
                         type="text"
                         className="form-control"
-                        placeholder="Enter Name Book"
-                        name="name_book"
-                        value={Books.name_book}
+                        placeholder="Judul Buku"
+                        name="judul_buku"
+                        value={Books.judul_buku}
                         onChange={(e) => setBooks({ ...Books, [e.target.name]: e.target.value })}
                       />
                     </div>
                     <div className="form-group">
-                      <label htmlFor="categorySelect">Select Category</label>
-                      <select
-                        id="categorySelect"
+                      <input
+                        type="text"
                         className="form-control"
-                        name="name_category"
-                        value={Categories.name_category}
-                        onChange={(e) => setCategories({ ...Categories, [e.target.name]: e.target.value })}
+                        placeholder="Pengarang"
+                        name="pengarang"
+                        value={Books.pengarang}
+                        onChange={(e) => setBooks({ ...Books, [e.target.name]: e.target.value })}
+                      />
+                    </div>
+                    <div className="form-group">
+                      <select
+                        id="PenerbitSelect"
+                        className="form-control"
+                        name="nama_penerbit"
+                        value={Authors.nama_penerbit}
+                        onChange={(e) => setAuthors({ ...Authors, [e.target.name]: e.target.value })}
                       >
-                        <option value="">Select a Category</option>
-                        {allCategories.map((category) => (
-                          <option key={category.id} value={category.id}>
-                            {category.name_category}
+                        <option value="">Pilih Penerbit</option>
+                        {allAuthors.map((author) => (
+                          <option key={author.id} value={author.id}>
+                            {author.nama_penerbit}
                           </option>
                         ))}
                       </select>
                     </div>
                     <div className="form-group">
-                      <label>Select Authors</label>
-                      <Select
-                        isMulti
-                        options={allAuthors.map(author => ({ value: author.id, label: author.name_author }))}
-                        value={allAuthors.filter(author => Authors.includes(author.id)).map(author => ({ value: author.id, label: author.name_author }))}
-                        onChange={handleAuthorSelectChange}
+                      <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Pengarang"
+                        name="category_id"
+                        value={Books.category_id}
+                        onChange={(e) => setBooks({ ...Books, [e.target.name]: e.target.value })}
                       />
                     </div>
-                    {/* Repeat similar form groups for other fields */}
+                    <div className="form-group">
+                      <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Pengarang"
+                        name="tahun_terbit"
+                        value={Books.tahun_terbit}
+                        onChange={(e) => setBooks({ ...Books, [e.target.name]: e.target.value })}
+                      />
+                    </div>
+                    <div className="form-group">
+                      <input
+                        type="text"
+                        className="form-control"
+                        placeholder="buku baik"
+                        name="buku_baik"
+                        value={Books.buku_baik}
+                        onChange={(e) => setBooks({ ...Books, [e.target.name]: e.target.value })}
+                      />
+                    </div>
+                    <div className="form-group">
+                      <input
+                        type="text"
+                        className="form-control"
+                        placeholder="buku rusak"
+                        name="buku_rusak"
+                        value={Books.buku_rusak}
+                        onChange={(e) => setBooks({ ...Books, [e.target.name]: e.target.value })}
+                      />
+                    </div>
+                    
+  
 
                     <div className="form-group">
                       <button

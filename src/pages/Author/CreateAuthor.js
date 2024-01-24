@@ -8,8 +8,9 @@ import { useNavigate } from 'react-router-dom';
 
 function CreateAuthor() {
   const [Author, setAuthor] = useState({
-    name_author: "",
-    address: "",
+    kode_penerbit: "",
+    nama_penerbit: "",
+    verf_penerbit: ""
   });
 
   const navigate = useNavigate();
@@ -18,12 +19,13 @@ function CreateAuthor() {
     e.preventDefault();
     try {
       const saveResponse = await axios.post('http://localhost:8000/api/author/create', {
-        name_author: Author.name_author,
-        address: Author.address
+        kode_penerbit: Author.kode_penerbit,
+        nama_penerbit: Author.nama_penerbit,
+        verf_penerbit: Author.verf_penerbit
       });
 
       const savedData = saveResponse.data.data;
-      setAuthor(savedData); 
+      setAuthor(savedData);
       navigate('/Author/ListAuthor');
       Swal.fire({
         title: 'success',
@@ -56,24 +58,32 @@ function CreateAuthor() {
                   <div className="col-md-6">
                     <form>
                       <div className="form-group">
-                        <label htmlFor="name_author">Author Name</label>
                         <input
                           type="text"
                           className="form-control"
-                          placeholder="Enter Author Name"
-                          name="name_author"
-                          value={Author.name_author}
+                          placeholder="Kode Penerbit"
+                          name="kode_penerbit"  
+                          value={Author.kode_penerbit}
                           onChange={(e) => setAuthor({ ...Author, [e.target.name]: e.target.value })}
                         />
                       </div>
                       <div className="form-group">
-                        <label htmlFor="address">Address</label>
                         <input
                           type="text"
                           className="form-control"
-                          placeholder="Enter Address"
-                          name="address"
-                          value={Author.address}
+                          placeholder="Nama Penerbit"
+                          name="nama_penerbit" 
+                          value={Author.nama_penerbit}
+                          onChange={(e) => setAuthor({ ...Author, [e.target.name]: e.target.value })}
+                        />
+                      </div>
+                      <div className="form-group">
+                        <input
+                          type="text"
+                          className="form-control"
+                          placeholder="Verf Penerbit"
+                          name="verf_penerbit"  
+                          value={Author.verf_penerbit}
                           onChange={(e) => setAuthor({ ...Author, [e.target.name]: e.target.value })}
                         />
                       </div>
@@ -81,7 +91,7 @@ function CreateAuthor() {
                         <button
                           type="button"
                           className="btn btn-primary"
-                          onClick={e => onSubmitChange(e)}
+                          onClick={(e) => onSubmitChange(e)}
                         >
                           Submit
                         </button>

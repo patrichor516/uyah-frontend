@@ -36,12 +36,11 @@ function Sidebar() {
                 </p>
               </Link>
             </li>
-            <li class="nav-header">MASTER DATA</li>
             <li class="nav-item">
               <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-book"></i>
                 <p>
-                  Pages
+                    Master Data
                   <i class="fas fa-angle-left right"></i>
                 </p>
               </a>
@@ -50,7 +49,7 @@ function Sidebar() {
                   <Link to="/book/ListBook" className="nav-link">
                     <i className="far fa-circle nav-icon"></i>
                     <p>
-                      Book
+                      Buku
                     </p>
                   </Link>
                 </li>
@@ -58,7 +57,7 @@ function Sidebar() {
                   <Link to="/Author/ListAuthor" className="nav-link">
                     <i className="far fa-circle nav-icon"></i>
                     <p>
-                      Author
+                      Penerbit
                     </p>
                   </Link>
                 </li>
@@ -66,11 +65,26 @@ function Sidebar() {
                   <Link to="/Category/ListCategory" className="nav-link">
                     <i className="far fa-circle nav-icon"></i>
                     <p>
-                      Category
+                      Kategori
                     </p>
                   </Link>
                 </li>
-              
+                <li className="nav-item">
+                  <Link to="/anggota/ListAnggota" className="nav-link">
+                    <i className="far fa-circle nav-icon"></i>
+                    <p>
+                      Anggota
+                    </p>
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link to="/peminjaman/ListPeminjaman" className="nav-link">
+                    <i className="far fa-circle nav-icon"></i>
+                    <p>
+                      Peminjaman
+                    </p>
+                  </Link>
+                </li>
               </ul>
             </li>
             <li class="nav-header">ACTION</li>
