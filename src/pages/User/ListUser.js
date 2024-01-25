@@ -83,7 +83,7 @@ function ListUser() {
                     <div class="card-tools">
                       <div class="input-group input-group-sm" style={{ width: '100px' }}>
                         <td>
-                          <Link to="/Category/CreateCategory" className="btn btn-block btn-primary">
+                          <Link to="/anggota/CreateAnggota" className="btn btn-block btn-primary">
                             CREATE
                           </Link>
                         </td>
